@@ -27,7 +27,7 @@ def post_new_client_kit(kit_create, authToken):
     url = configuration.URL_SERVICE + configuration.CREATE_KIT_PATH
 
     new_headers = data.headers.copy()
-    new_headers['Authorization'] = 'Bearer {authToken}'
+    new_headers['Authorization'] = 'Bearer + authToken'
 
     return requests.post(url, json=kit_create, headers=new_headers)
 
