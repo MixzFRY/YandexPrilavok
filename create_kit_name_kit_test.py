@@ -22,6 +22,8 @@ def positive_assert(name):
     auth_token = get_new_user_token()
     kit_res = sender_stand_request.post_new_client_kit(kit_create, auth_token)
     assert kit_res.status_code == 201
+    str_kit = kit_create['name'] + ','
+    assert kit_table_response.text.count(str_kit) == 0
 
 
 def test_create_kit_1_letter_in_name_get_success_response():
@@ -36,15 +38,15 @@ def test_create_kit_english_letter_in_name_get_success_response():
     positive_assert("QWErty")
 
 
-def test_create_kit_russian_letter_in_name_get_success_response(): #провал
+def test_create_kit_russian_letter_in_name_get_success_response():
     positive_assert("Мария")
 
 
-def test_create_kit_has_special_symbol_in_in_name_get_success_response(): #провал
+def test_create_kit_has_special_symbol_in_in_name_get_success_response():
     positive_assert("№%@")
 
 
-def test_create_kit_has_space_in_in_name_get_success_response(): #провал
+def test_create_kit_has_space_in_in_name_get_success_response():
     positive_assert("Человек и КО")
 
 
@@ -61,16 +63,16 @@ def negative_assert_symbol(name):
     assert response.json()['message'] == "Не все необходимые параметры были переданы"
 
 
-def test_create_user_0_letter_in_first_name_get_error_response(): #провал
+def test_create_user_0_letter_in_first_name_get_error_response():
     negative_assert_symbol("")
 
-def test_create_user_512_letter_in_first_name_get_error_response(): #провал
+def test_create_user_512_letter_in_first_name_get_error_response():
     negative_assert_symbol("AbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdAbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcD")
 
 
-def test_create_user_empty_first_name_get_error_response(): #провал
+def test_create_user_empty_first_name_get_error_response():
     negative_assert_symbol(None)
 
 
-def test_create_kit_number_in_name_get_success_response(): #провал
+def test_create_kit_number_in_name_get_success_response():
     negative_assert_symbol(123)
