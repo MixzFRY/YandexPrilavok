@@ -9,10 +9,10 @@ def get_kit_create(name):
 
 
 def get_new_user_token():
-    sender_stand_request.post_new_user(data.user_body)
-    res = sender_stand_request.auth()
-    if res.ok:
-        return res.json('authToken')
+    user_body = data.user_body
+    resp_user = sender_stand_request.post_new_user(user_body)
+    if resp_user.ok:
+        return resp_user.json()["authToken"]
     else:
         return ''
 
@@ -21,12 +21,8 @@ def positive_assert(name):
     kit_create = get_kit_create(name)
     auth_token = get_new_user_token()
     kit_res = sender_stand_request.post_new_client_kit(kit_create, auth_token)
+    assert kit_res.json()['name'] == name
     assert kit_res.status_code == 201
-    kit_table_response = sender_stand_request.get_kit_table()
-
-    str_kit = kit_create['name'] + ','
-
-    assert kit_table_response.text.count(str_kit) == 0
 
 
 def test_create_kit_1_letter_in_name_get_success_response():
